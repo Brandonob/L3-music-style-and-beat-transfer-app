@@ -11,7 +11,7 @@ import {
   VStack,
   useToast,
   Progress,
-  Text
+  Text,
 } from '@chakra-ui/react';
 
 export const MusicUpload = () => {

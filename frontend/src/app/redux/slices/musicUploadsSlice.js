@@ -43,9 +43,8 @@ export const fetchAllMusicUploads = () => async (dispatch) => {
   
       if (response.ok) {
         const data = await response.json();
-        console.log('All Music Uploads:', data.musicUploads);
-        dispatch(setCurrentTrack(data.musicUploads[0]));
-        dispatch(setMusicUploads(data.musicUploads || []));
+        console.log('All Music Uploads:', data);
+        dispatch(setMusicUploads(data || []));
       } else {
         throw new Error("Failed to fetch music uploads");
       }

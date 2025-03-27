@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import {
   Box,
   Button,
@@ -13,6 +13,8 @@ import {
   Progress,
   Text,
 } from '@chakra-ui/react';
+import { fetchAllMusicUploads } from '../redux/slices/musicUploadsSlice';
+import { useDispatch } from 'react-redux';
 
 export const MusicUpload = () => {
   const [file, setFile] = useState(null);
@@ -22,6 +24,11 @@ export const MusicUpload = () => {
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
   const toast = useToast();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchAllMusicUploads());
+  }, []);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -33,14 +40,31 @@ export const MusicUpload = () => {
     e.preventDefault();
     if (!file) return;
 
-    setUploading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('title', title);
-    formData.append('artist', artist);
-    formData.append('genre', genre);
-
+    // Check for duplicates first
     try {
+      //route to check if the song already exists in the database 
+      const checkResponse = await fetch(`/api/musicUploads/check?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}`);
+      const checkData = await checkResponse.json();
+      
+      if (checkData.exists) {
+        toast({
+          title: 'Duplicate Found',
+          description: 'A song with this title and artist already exists',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      // Continue with upload if no duplicate found
+      setUploading(true);
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('title', title);
+      formData.append('artist', artist);
+      formData.append('genre', genre);
+
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: formData,

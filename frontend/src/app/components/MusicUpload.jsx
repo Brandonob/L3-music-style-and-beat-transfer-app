@@ -46,7 +46,22 @@ export const MusicUpload = () => {
         body: formData,
       });
 
-      if (!response.ok) throw new Error('Upload failed');
+      const data = await response.json();
+
+      if (response.status === 409) {
+        toast({
+          title: 'Duplicate File',
+          description: 'This file has already been uploaded',
+          status: 'warning',
+          duration: 5000,
+          isClosable: true,
+        });
+        return;
+      }
+
+      if (!response.ok) {
+        throw new Error(data.message || 'Upload failed');
+      }
 
       toast({
         title: 'Success',
@@ -64,7 +79,7 @@ export const MusicUpload = () => {
     } catch (error) {
       toast({
         title: 'Error',
-        description: 'Failed to upload music',
+        description: error.message || 'Failed to upload music',
         status: 'error',
         duration: 5000,
         isClosable: true,
@@ -109,6 +124,8 @@ export const MusicUpload = () => {
             >
               <option value="rock">Rock</option>
               <option value="pop">Pop</option>
+              <option value="country">Country</option>
+              <option value="rnb">R&B</option>
               <option value="jazz">Jazz</option>
               <option value="classical">Classical</option>
               <option value="hiphop">Hip Hop</option>

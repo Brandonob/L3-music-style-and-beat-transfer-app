@@ -18,6 +18,7 @@ import { useDispatch } from 'react-redux';
 
 export const MusicUpload = () => {
   const [file, setFile] = useState(null);
+  const [duration, setDuration] = useState(null);
   const [title, setTitle] = useState('');
   const [artist, setArtist] = useState('');
   const [genre, setGenre] = useState('');
@@ -32,7 +33,21 @@ export const MusicUpload = () => {
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
+      const file = e.target.files[0];
+      setFile(file);
+      
+      // Calculate duration
+      const audio = new Audio();
+      const reader = new FileReader();
+      
+      reader.onload = function(e) {
+        audio.src = e.target.result;
+        audio.addEventListener('loadedmetadata', () => {
+          setDuration(audio.duration);
+        });
+      };
+      
+      reader.readAsDataURL(file);
     }
   };
 
@@ -64,6 +79,7 @@ export const MusicUpload = () => {
       formData.append('title', title);
       formData.append('artist', artist);
       formData.append('genre', genre);
+      formData.append('duration', duration);
 
       const response = await fetch('/api/upload', {
         method: 'POST',

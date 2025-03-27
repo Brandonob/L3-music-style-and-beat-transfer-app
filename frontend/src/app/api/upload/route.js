@@ -9,6 +9,7 @@ export async function POST(req) {
     const title = formData.get('title');
     const artist = formData.get('artist');
     const genre = formData.get('genre');
+    const duration = formData.get('duration');
 
     // Validate file exists
     if (!file) {
@@ -49,7 +50,8 @@ export async function POST(req) {
       genre,
       fileName: file.name,
       fileSize: file.size,
-      fileId: fileId, // Store the GridFS file ID
+      fileId: fileId,
+      duration: duration,
       uploadDate: new Date(),
     });
 

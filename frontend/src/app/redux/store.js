@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import musicUploadsReducer from './slices/musicUploadsSlice';
+import musicReducer from './slices/musicSlice';
 
 
 export const store = configureStore({
   reducer: {
-    musicUploads: musicUploadsReducer,
+    music: musicReducer,
     },
 });
 

@@ -5,7 +5,7 @@ import { NextResponse } from 'next/server';
 export async function GET(req) {
     try {   
         const db = await getDB();
-        const musicUploads = await db.collection('music.files').find({}).toArray();
+        const musicUploads = await db.collection('music').find({}).toArray();
         return NextResponse.json(musicUploads);
     } catch (error) {
         console.error('Error fetching music uploads:', error);

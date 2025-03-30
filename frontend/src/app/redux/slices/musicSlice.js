@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-    currentTrack: null,
-  musicUploads: [],
+  currentTrack: null,
+  musicFiles: [],
   loading: false,
   error: null,
 };
 
-const musicUploadsSlice = createSlice({
-  name: 'musicUploads',
+const musicSlice = createSlice({
+  name: 'music',
   initialState,
   reducers: {
-    setMusicUploads: (state, action) => {   
-      state.musicUploads = action.payload;
+    setMusicFiles: (state, action) => {   
+      state.musicFiles = action.payload;
     },
     setCurrentTrack: (state, action) => {
       state.currentTrack = action.payload;
@@ -29,12 +29,12 @@ const musicUploadsSlice = createSlice({
   },
 });
 
-export const fetchAllMusicUploads = () => async (dispatch) => {
+export const fetchAllMusicFiles = () => async (dispatch) => {
     try {
       dispatch(setLoading(true));
       // debugger;
   
-      const response = await fetch('/api/musicUploads', {
+      const response = await fetch('/api/music', {
         method: 'GET',
         headers: {
           'Content-Type': 'application/json',
@@ -43,17 +43,17 @@ export const fetchAllMusicUploads = () => async (dispatch) => {
   
       if (response.ok) {
         const data = await response.json();
-        console.log('All Music Uploads:', data);
-        dispatch(setMusicUploads(data || []));
+        console.log('All Music Files:', data);
+        dispatch(setMusicFiles(data || []));
       } else {
-        throw new Error("Failed to fetch music uploads");
+        throw new Error("Failed to fetch music files");
       }
     } catch (error) {   
-      console.error("Error fetching music uploads:", error);
+      console.error("Error fetching music files:", error);
       dispatch(setError(error.message));
     }
   };
 
-export const { setMusicUploads, setCurrentTrack, setLoading, setError, clearError } = musicUploadsSlice.actions;
+export const { setMusicFiles, setCurrentTrack, setLoading, setError, clearError } = musicSlice.actions;
 
-export default musicUploadsSlice.reducer;   
+export default musicSlice.reducer;   

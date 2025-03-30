@@ -13,7 +13,7 @@ import {
   Progress,
   Text,
 } from '@chakra-ui/react';
-import { fetchAllMusicUploads } from '../redux/slices/musicUploadsSlice';
+import { fetchAllMusicFiles } from '../redux/slices/musicSlice';
 import { useDispatch } from 'react-redux';
 
 export const MusicUpload = () => {
@@ -26,10 +26,6 @@ export const MusicUpload = () => {
   const [progress, setProgress] = useState(0);
   const toast = useToast();
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(fetchAllMusicUploads());
-  }, []);
 
   const handleFileChange = (e) => {
     if (e.target.files && e.target.files[0]) {
@@ -57,8 +53,8 @@ export const MusicUpload = () => {
 
     // Check for duplicates first
     try {
-      //route to check if the song already exists in the database 
-      const checkResponse = await fetch(`/api/musicUploads/check?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}`);
+      // Fix the duplicate check endpoint
+      const checkResponse = await fetch(`/api/music/check?title=${encodeURIComponent(title)}&artist=${encodeURIComponent(artist)}`);
       const checkData = await checkResponse.json();
       
       if (checkData.exists) {

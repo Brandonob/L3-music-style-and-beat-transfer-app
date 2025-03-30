@@ -3,8 +3,9 @@ import { NextResponse } from 'next/server';
 import { getDB } from '../../../../../lib/mongodb';
 
 export async function GET(req, { params }) {
-  const { fileId } = params;
+    console.log('params', params);
   const db = await getDB();
+  const { fileId } = await params;
   const bucket = new GridFSBucket(db, {
     bucketName: 'music'
   });
@@ -12,6 +13,7 @@ export async function GET(req, { params }) {
   try {
     // Find the file metadata
     const files = await bucket.find({ _id: new ObjectId(fileId) }).toArray();
+    console.log('files', files);
     if (!files.length) {
       return NextResponse.json(
         { error: 'File not found' },

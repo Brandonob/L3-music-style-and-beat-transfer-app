@@ -9,7 +9,7 @@ export const MusicPlayer = ({ musicFile }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const audioUrl = `/api/stream/${musicFile._id}`;
+  const audioUrl = `/api/audio/${musicFile.fileId}`;
 
   return (
     <Box className="w-full">
@@ -19,7 +19,7 @@ export const MusicPlayer = ({ musicFile }) => {
         showSkipControls={false}
         onError={(e) => {
           setError('Error loading audio file');
-          console.error('Audio player error:', e);
+          console.error('Audio player error:');
         }}
         onLoadStart={() => setIsLoading(true)}
         onCanPlay={() => setIsLoading(false)}

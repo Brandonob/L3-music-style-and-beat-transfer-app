@@ -34,3 +34,10 @@ export async function uploadToGridFS(file, filename) {
     throw error;
   }
 }
+
+export async function getGridFSBucket() {
+  const db = await getDB();
+  return new GridFSBucket(db, {
+    bucketName: 'music'  // Uses same bucket name as upload function
+  });
+}

@@ -11,31 +11,31 @@ export const MusicList = () => {
 
   return (
     <VStack spacing={4} width="100%" maxW="xl" mx="auto" p={4}>
-      {musicFiles.map((music) => (
+      {musicFiles.map((musicFile) => (
         <Box 
-          key={music._id} 
+          key={musicFile._id} 
           w="100%" 
           p={4} 
           borderWidth="1px" 
           borderRadius="lg"
           shadow="sm"
         >
-          <Text fontWeight="bold">{music.title}</Text>
-          <Text>Artist: {music.artist}</Text>
-          <Text>Genre: {music.genre}</Text>
+          <Text fontWeight="bold">{musicFile.title}</Text>
+          <Text>Artist: {musicFile.artist}</Text>
+          <Text>Genre: {musicFile.genre}</Text>
           
           <Button
             mt={2}
             colorScheme="blue"
             size="sm"
-            onClick={() => setSelectedMusic(selectedMusic === music._id ? null : music._id)}
+            onClick={() => setSelectedMusic(selectedMusic === musicFile._id ? null : musicFile._id)}
           >
-            {selectedMusic === music._id ? 'Hide Player' : 'Play'}
+            {selectedMusic === musicFile._id ? 'Hide Player' : 'Play'}
           </Button>
           
-          {selectedMusic === music._id && (
+          {selectedMusic === musicFile._id && (
             <Box mt={4}>
-              <MusicPlayer musicFile={music} />
+              <MusicPlayer musicFile={musicFile} />
             </Box>
           )}
         </Box>

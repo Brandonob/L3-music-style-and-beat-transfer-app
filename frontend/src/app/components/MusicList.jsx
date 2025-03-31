@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { Box, VStack, Text, Button } from '@chakra-ui/react';
+import { Box, VStack, Text, Button, Heading } from '@chakra-ui/react';
 import { MusicPlayer } from './MusicPlayer';
 
 export const MusicList = () => {
@@ -11,7 +11,10 @@ export const MusicList = () => {
 
   return (
     <VStack spacing={4} width="100%" maxW="xl" mx="auto" p={4}>
-      {musicFiles.map((musicFile) => (
+        <Heading className="text-4xl font-bold text-gray-800 mb-4">
+          Music List
+        </Heading>
+        {musicFiles.map((musicFile) => (
         <Box 
           key={musicFile._id} 
           w="100%" 
